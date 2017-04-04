@@ -1,24 +1,26 @@
 package com.example.zakiya.greenr;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class findStation extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class findStation extends AppCompatActivity  {
 
     private Button findLocation;
-
+    private ArrayList<String> listOfStations = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,32 +28,38 @@ public class findStation extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        findLocation = (Button) findViewById(R.id.findStationButton);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello World");
+        final DatabaseReference chargeSRef = database.getReference("Charging Stations");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        ChargingStation chargingStation = new ChargingStation("AA Mall Supercharger", "5016, Shennan East Road, Shenzhen, China", 3, true);
+        String key = chargeSRef.push().getKey();
+        chargeSRef.child(key).setValue(chargingStation);
+
+        chargeSRef.orderByKey().limitToFirst(3).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("onDataChange", dataSnapshot.toString());
-            }
+                //Read each child of the user
+                Log.d("Retrieve Data", "Charging Stations Being Retrieved.");
 
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    ChargingStation cS = child.getValue(ChargingStation.class);
+                    listOfStations.add(cS.toString());
+                }
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("Error", "Database could not retrieve list of stations");
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if (listOfStations != null) {
+            final ArrayAdapter adapter = new ArrayAdapter<>(this,
+                    R.layout.listview, R.id.label_list, listOfStations);
+
+            ListView listView = (ListView) findViewById(R.id.charging_stations_list);
+            listView.setAdapter(adapter);
+        } else {
+            Log.e("Error", "The list was empty");
+        }
     }
-
 }

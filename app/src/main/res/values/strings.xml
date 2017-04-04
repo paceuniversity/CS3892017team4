@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Greenr</string>
-    <string name="title_activity_submit_location">submitLocation</string>
-    <string name="title_activity_find_station">findStation</string>
+    <string name="title_activity_favorites">Favorites</string>
 </resources>
