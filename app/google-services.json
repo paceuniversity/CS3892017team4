@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "702897253461",
+    "firebase_url": "https://cs3892017teamzacs.firebaseio.com",
+    "project_id": "cs3892017teamzacs",
+    "storage_bucket": "cs3892017teamzacs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702897253461:android:591e22405f38a3df",
+        "android_client_info": {
+          "package_name": "com.example.zakiya.greenr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702897253461-o70mamfvo72ip41jqjs2a4nb85fbd2ca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zakiya.greenr",
+            "certificate_hash": "b2304b9aa6684c7374d7bd7d02bceaf73d7bc8d4"
+          }
+        },
+        {
+          "client_id": "702897253461-lk1tde4hqproqpog1uf895v9cfbjt667.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5Aw8NFGdt_0GGXzCdaAk341AOdlRan78"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702897253461-lk1tde4hqproqpog1uf895v9cfbjt667.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
