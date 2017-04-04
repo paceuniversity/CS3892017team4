@@ -27,10 +27,11 @@
 
     <ListView
         android:id="@+id/charging_stations_list"
-        android:layout_width="match_parent"
-        android:layout_height="499dp"
+        android:layout_width="wrap_content"
+        android:layout_height="495dp"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentBottom="true">
-    </ListView>
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"></ListView>
 
 </android.support.design.widget.CoordinatorLayout>
