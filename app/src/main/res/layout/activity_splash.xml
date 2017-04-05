@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
-
     <TextView
         android:text="GREENR"
         android:layout_width="wrap_content"
@@ -24,7 +23,7 @@
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_height="150dp "
+        android:layout_height="150dp"
         android:layout_width="1000dp" />
 
 

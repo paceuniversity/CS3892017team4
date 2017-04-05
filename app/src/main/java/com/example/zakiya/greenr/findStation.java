@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ public class findStation extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_station);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -46,6 +47,7 @@ public class findStation extends AppCompatActivity  {
                     listOfStations.add(cS.toString());
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("Error", "Database could not retrieve list of stations");

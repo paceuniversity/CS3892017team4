@@ -58,11 +58,9 @@ public class ChargingStation {
 
     @Override
     public String toString() {
-        return "ChargingStation{" +
-                "stationName='" + stationName + '\'' +
-                ", location='" + location + '\'' +
-                ", level=" + level +
-                ", membershipRequired=" + membershipRequired +
-                '}';
+        return  "Station: " + stationName + "\n"
+                + "Address: " + location +  "\n"
+                + "Level: " + level +  "\n"
+                + "Membership Requirement: " + membershipRequired + "\n";
     }
 }

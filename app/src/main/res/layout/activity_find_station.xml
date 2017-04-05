@@ -15,7 +15,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar2"
+        android:title="Greenr"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -24,13 +25,5 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_find_station" />
-
-    <ListView
-        android:id="@+id/charging_stations_list"
-        android:layout_width="match_parent"
-        android:layout_height="499dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentBottom="true">
-    </ListView>
 
 </android.support.design.widget.CoordinatorLayout>
