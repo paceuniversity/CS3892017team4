@@ -39,18 +39,6 @@
         tools:text="我的位置 "
         android:hint="我的位置 " />
 
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:layout_marginBottom="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/colorPrimary"
-        android:tint="@android:color/holo_orange_light" />
-
     <TextView
         android:text="充电站位置"
         android:layout_marginTop="16dp"
@@ -71,5 +59,19 @@
         android:layout_alignTop="@+id/textView4"
         android:layout_alignRight="@+id/imageView7"
         android:layout_alignEnd="@+id/imageView7" />
+
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        android:layout_marginBottom="56dp"
+        android:background="@color/colorPrimary"
+        android:tint="@android:color/holo_orange_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
 
 </RelativeLayout>
