@@ -11,12 +11,12 @@ public class ChargingStation {
     private String stationName;
     private String location;
     private int level;
-    private boolean membershipRequired;
+    private String membershipRequired;
 
     public ChargingStation(){
     }
 
-    public ChargingStation(String stationName, String location, int level, boolean membershipRequired) {
+    public ChargingStation(String stationName, String location, int level, String membershipRequired) {
         this.stationName = stationName;
         this.location = location;
         this.level = level;
@@ -48,21 +48,19 @@ public class ChargingStation {
         this.level = level;
     }
 
-    public boolean isMembershipRequired() {
+    public String isMembershipRequired() {
         return membershipRequired;
     }
 
-    public void setMembershipRequired(boolean membershipRequired) {
+    public void setMembershipRequired(String membershipRequired) {
         this.membershipRequired = membershipRequired;
     }
 
     @Override
     public String toString() {
-        return "ChargingStation{" +
-                "stationName='" + stationName + '\'' +
-                ", location='" + location + '\'' +
-                ", level=" + level +
-                ", membershipRequired=" + membershipRequired +
-                '}';
+        return  "Station: " + stationName + "\n"
+                + "Address: " + location +  "\n"
+                + "Level: " + level +  "\n"
+                + "Membership Requirement: " + membershipRequired + "\n";
     }
 }

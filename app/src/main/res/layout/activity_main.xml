@@ -60,6 +60,14 @@
         android:layout_alignRight="@+id/imageView7"
         android:layout_alignEnd="@+id/imageView7" />
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
+
+    </android.support.design.widget.AppBarLayout>
+
     <ImageButton
         android:id="@+id/favoriteButton"
         android:layout_width="wrap_content"
