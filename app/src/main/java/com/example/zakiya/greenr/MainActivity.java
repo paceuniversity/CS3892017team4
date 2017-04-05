@@ -1,6 +1,7 @@
 package com.example.zakiya.greenr;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton favButton = (ImageButton) findViewById(R.id.favoriteButton);
         favButton.setOnClickListener(this);
 
-        Button mapButton = (Button) findViewById(R.id.mapsbutton);
+        ImageButton mapButton = (ImageButton) findViewById(R.id.mapsbutton);
         mapButton.setOnClickListener(this);
     }
 

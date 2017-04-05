@@ -36,7 +36,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (googleServicesAvailable()) {
-            Toast.makeText(this, "(:", Toast.LENGTH_LONG).show();
             setContentView(R.layout.map_screen);
             initMap();
 
@@ -45,7 +44,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
 
     private void initMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(mapScreen.this);
     }
 
     public boolean googleServicesAvailable() {
@@ -64,8 +63,9 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Toast.makeText(this, "(:", Toast.LENGTH_LONG).show();
         mGoogleMap = googleMap;
-        goToLocationZoom(31.222804,-121.475823,15);
+        goToLocationZoom(40.7131212,-74.0006327,15);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
