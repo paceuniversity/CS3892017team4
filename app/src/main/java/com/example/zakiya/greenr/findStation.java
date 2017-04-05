@@ -18,16 +18,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class findStation extends AppCompatActivity  {
+public class findStation extends AppCompatActivity {
 
     private Button findLocation;
     private ArrayList<String> listOfStations = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_station);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+
+        final ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.listview, R.id.label_list, listOfStations);
+
+        final ListView listView = (ListView) findViewById(R.id.charging_stations_list);
+        listView.setAdapter(adapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference chargeSRef = database.getReference("Charging Stations");
@@ -36,6 +43,14 @@ public class findStation extends AppCompatActivity  {
         String key = chargeSRef.push().getKey();
         chargeSRef.child(key).setValue(chargingStation);
 
+ /*       if (listOfStations != null) {
+            final ArrayAdapter adapter = new ArrayAdapter<>(this,
+                    R.layout.listview, R.id.label_list, listOfStations);
+            ListView listView = (ListView) findViewById(R.id.charging_stations_list);
+        } else {
+            Log.e("Error", "The list was empty");
+        }
+*/
         chargeSRef.orderByKey().limitToFirst(3).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -45,6 +60,7 @@ public class findStation extends AppCompatActivity  {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ChargingStation cS = child.getValue(ChargingStation.class);
                     listOfStations.add(cS.toString());
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -53,15 +69,5 @@ public class findStation extends AppCompatActivity  {
                 Log.e("Error", "Database could not retrieve list of stations");
             }
         });
-
-        if (listOfStations != null) {
-            final ArrayAdapter adapter = new ArrayAdapter<>(this,
-                    R.layout.listview, R.id.label_list, listOfStations);
-
-            ListView listView = (ListView) findViewById(R.id.charging_stations_list);
-            listView.setAdapter(adapter);
-        } else {
-            Log.e("Error", "The list was empty");
-        }
     }
 }
