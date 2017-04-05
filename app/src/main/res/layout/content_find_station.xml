@@ -11,6 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.zakiya.greenr.findStation"
-    tools:showIn="@layout/activity_find_station">
-
+    tools:showIn="@layout/activity_find_station"
+    android:background="@color/colorAccent">
 </RelativeLayout>

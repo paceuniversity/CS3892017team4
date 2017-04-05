@@ -9,7 +9,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.zakiya.greenr.MainActivity">
+    tools:context="com.example.zakiya.greenr.MainActivity"
+    android:background="@color/colorPrimary">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?android:attr/homeAsUpIndicator"
+        android:id="@+id/imageView7"
+        android:tint="@android:color/background_light"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_toLeftOf="@+id/textView5"
+        android:layout_toStartOf="@+id/textView5"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp" />
+
+    <TextView
+        android:text="我的位置 "
+        android:textColor= "#0000000"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView5"
+        android:background="@android:color/background_light"
+        android:layout_alignParentTop="true"
+        android:layout_height="20dp"
+        android:layout_width="400dp"
+        android:layout_toRightOf="@+id/favoriteButton"
+        android:layout_toEndOf="@+id/favoriteButton"
+        tools:text="我的位置 "
+        android:hint="我的位置 " />
+
+    <TextView
+        android:text="充电站位置"
+        android:layout_marginTop="16dp"
+        android:id="@+id/textView4"
+        android:background="@android:color/background_light"
+        android:layout_height="20dp"
+        android:layout_width="400dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        android:id="@+id/imageView4"
+        android:tint="@android:color/background_light"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_alignRight="@+id/imageView7"
+        android:layout_alignEnd="@+id/imageView7" />
 
     <ImageButton
         android:id="@+id/favoriteButton"
@@ -17,9 +66,14 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/btn_star_big_on"
         android:layout_marginBottom="56dp"
+        android:background="@color/colorPrimary"
+        android:tint="@android:color/holo_orange_light"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        />
 
     <Button
         android:id="@+id/mapsbutton"
@@ -28,5 +82,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="onClick"
-        android:text="Take me to the map" />
+        android:text="Take me to the map"
+        />
+
 </RelativeLayout>
