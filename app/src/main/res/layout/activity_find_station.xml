@@ -26,4 +26,8 @@
         android:id="@+id/include"
         layout="@layout/content_find_station" />
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.design.widget.CoordinatorLayout>

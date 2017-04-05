@@ -32,7 +32,7 @@ public class findStation extends AppCompatActivity  {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference chargeSRef = database.getReference("Charging Stations");
 
-        ChargingStation chargingStation = new ChargingStation("AA Mall Supercharger", "5016, Shennan East Road, Shenzhen, China", 3, true);
+        ChargingStation chargingStation = new ChargingStation("AA Mall Supercharger", "5016, Shennan East Road, Shenzhen, China", 3, "yes");
         String key = chargeSRef.push().getKey();
         chargeSRef.child(key).setValue(chargingStation);
 
