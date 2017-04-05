@@ -5,6 +5,7 @@ android {
     buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.example.zakiya.greenr"
+        android.defaultConfig.vectorDrawables.useSupportLibrary=true
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -26,12 +27,13 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.google.firebase:firebase-crash:10.2.1'
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.google.android.gms:play-services:10.2.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
-
-
-
 apply plugin: 'com.google.gms.google-services'
+
