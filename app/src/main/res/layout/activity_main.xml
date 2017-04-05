@@ -71,4 +71,27 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp" />
+
+    <ImageButton
+        android:id="@+id/mapsbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/favoriteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:onClick="onClick"
+        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
+    <TextView
+        android:id="@+id/AppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mapsbutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:textSize="75dp"
+        android:text="Greenr" />
+
+
 </RelativeLayout>
