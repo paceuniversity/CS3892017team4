@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    String s;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+    public void onClick2(View v) {
 
+        try {
 
+            s = null;
+            s.trim();
+        }
+        catch (Exception e)
+        {
+            FirebaseCrash.logcat(Log.ERROR,"TAG",s+"");
+        }
+    }
 }

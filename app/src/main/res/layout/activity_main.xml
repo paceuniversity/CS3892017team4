@@ -66,14 +66,11 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/btn_star_big_on"
         android:layout_marginBottom="56dp"
-        android:background="@color/colorPrimary"
-        android:tint="@android:color/holo_orange_light"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        />
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
 
     <ImageButton
         android:id="@+id/mapsbutton"
@@ -95,5 +92,6 @@
         android:layout_marginBottom="150dp"
         android:textSize="75dp"
         android:text="Greenr" />
+
 
 </RelativeLayout>
