@@ -61,4 +61,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FirebaseCrash.logcat(Log.ERROR,"TAG",s+"");
         }
     }
+    public void onClick2(View v) {
+
+        try {
+
+            s = null;
+            s.trim();
+        }
+        catch (Exception e)
+        {
+            FirebaseCrash.logcat(Log.ERROR,"TAG",s+"");
+        }
+    }
 }
