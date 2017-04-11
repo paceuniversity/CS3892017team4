@@ -41,7 +41,6 @@
 
     <TextView
         android:text="充电站位置"
-        android:textColor= "#000000"
         android:layout_marginTop="16dp"
         android:id="@+id/textView4"
         android:background="@android:color/background_light"
@@ -49,9 +48,7 @@
         android:layout_width="400dp"
         android:layout_below="@+id/textView5"
         android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5"
-        tools:text="充电站位置 "
-        android:hint="充电站位置" />
+        android:layout_alignStart="@+id/textView5" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -81,8 +78,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:backgroundTint="@color/colorPrimary" />
+        android:layout_marginStart="14dp" />
+
+    <ImageButton
+        android:id="@+id/mapsbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/favoriteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:onClick="onClick"
+        app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
     <TextView
         android:id="@+id/AppName"
@@ -94,17 +101,15 @@
         android:textSize="75dp"
         android:text="Greenr" />
 
-    <ImageButton
-        android:id="@+id/mapsbutton"
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="26dp"
-        android:onClick="onClick"
-        app:srcCompat="@android:drawable/ic_menu_mapmode"
-        android:layout_above="@+id/favoriteButton"
-        android:layout_alignLeft="@+id/favoriteButton"
-        android:layout_alignStart="@+id/favoriteButton"
-        android:backgroundTint="@color/colorPrimary" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="loadOpenChargeScreen"
+        android:text="OpenCharge" />
 
 
 </RelativeLayout>

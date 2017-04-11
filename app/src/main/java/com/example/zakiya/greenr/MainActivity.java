@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 
 import com.google.firebase.crash.FirebaseCrash;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String s;
 
@@ -32,36 +32,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void goToFavorites(View v) {
-        Log.i("clicks","You Clicked The Favorites Button");
-        Intent i=new Intent(MainActivity.this, findStation.class);
+        Log.i("clicks", "You Clicked The Favorites Button");
+        Intent i = new Intent(MainActivity.this, findStation.class);
         startActivity(i);
     }
 
-    public void loadMapScreen(View v){
-        Log.i("clicks","You Clicked The Map Button");
-        Intent i=new Intent(MainActivity.this, mapScreen.class);
+    public void loadMapScreen(View v) {
+        Log.i("clicks", "You Clicked The Map Button");
+        Intent i = new Intent(MainActivity.this, mapScreen.class);
+        startActivity(i);
+    }
+
+    public void loadOpenChargeScreen(View v) {
+        Log.i("clicks", "You Clicked The OpenCharge Button");
+        Intent i = new Intent(MainActivity.this, OpenCharge.class);
         startActivity(i);
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.favoriteButton: goToFavorites(v);
+        switch (v.getId()) {
+            case R.id.favoriteButton:
+                goToFavorites(v);
                 break;
-            case R.id.mapsbutton: loadMapScreen(v);
+            case R.id.mapsbutton:
+                loadMapScreen(v);
                 break;
         }
     }
+
     public void onClick2(View v) {
 
         try {
 
             s = null;
             s.trim();
-        }
-        catch (Exception e)
-        {
-            FirebaseCrash.logcat(Log.ERROR,"TAG",s+"");
+        } catch (Exception e) {
+            FirebaseCrash.logcat(Log.ERROR, "TAG", s + "");
         }
     }
 }
