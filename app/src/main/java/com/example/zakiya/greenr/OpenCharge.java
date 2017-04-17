@@ -16,9 +16,9 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-public class OpenCharge extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class OpenCharge extends AppCompatActivity  {
 
-    private GoogleApiClient mGoogleApiClient;
+/*    private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
 
     String url = "https://api.openchargemap.io/v2/poi/?output=kml";
@@ -49,9 +49,9 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    /**
+    *//**
      * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
-     */
+     *//*
     protected synchronized void buildGoogleApiClient() {
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -89,9 +89,9 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
         mGoogleApiClient.disconnect();
     }
 
-    /**
+    *//**
      * Runs when a GoogleApiClient object successfully connects.
-     */
+     *//*
     @Override
     public void onConnected(Bundle connectionHint) {
         requestLocationUpdates();
@@ -137,7 +137,7 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
         // attempt to re-establish the connection.
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
-    }
+    }*/
 
 }
 
