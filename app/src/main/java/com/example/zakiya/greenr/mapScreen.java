@@ -47,7 +47,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
         if (googleServicesAvailable()) {
             setContentView(R.layout.map_screen);
             initMap();
-
         }
     }
 
