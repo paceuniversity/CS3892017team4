@@ -1,4 +1,4 @@
-package com.example.zakiya.greenr;
+package com.example.zakiya.greenr.content;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

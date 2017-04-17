@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zakiya.greenr.content.ChargingStation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,9 +28,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -47,7 +51,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
         if (googleServicesAvailable()) {
             setContentView(R.layout.map_screen);
             initMap();
-
         }
     }
 
@@ -89,6 +92,27 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> results = new ArrayList<>();
+        ArrayList<ChargingStation> favoritesList = new ArrayList<>();
+        favoritesList.add(new ChargingStation("Test1", "1 Pace Plaza, NYC", 1, "Yes"));
+        favoritesList.add(new ChargingStation("Test2", "Columbus Park, NYC", 1, "Yes"));
+        favoritesList.add(new ChargingStation("Test3", "Canal Street Station, NYC", 1, "Yes"));
+
+        for (int i = 0; i < favoritesList.size(); i++) {
+            String location = favoritesList.get(i).getLocation();
+
+            try{
+                results = geocoder.getFromLocationName(location, 1);
+            }catch(IOException ioException){}
+
+            double stationLat = results.get(0).getLatitude();
+            double stationLong = results.get(0).getLongitude();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat,stationLong)).title(favoritesList.get(i).getStationName()));
+        }
+
+        //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.710574, -74.005767)).title("Test Marker"));
     }
 
     private void goToLocation(double lat, double lng) {

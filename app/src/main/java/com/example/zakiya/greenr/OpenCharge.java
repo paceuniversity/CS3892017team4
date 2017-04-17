@@ -1,76 +1,65 @@
 package com.example.zakiya.greenr;
 
-import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
 
-import java.io.IOException;
-import java.text.BreakIterator;
-import java.util.List;
+public class OpenCharge extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-public class OpenCharge extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private GoogleApiClient mGoogleApiClient;
+    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
 
-    GoogleMap mGoogleMap;
-    GoogleApiClient mGoogleApiClient;
-    MapFragment mapFragment = null;
     String url = "https://api.openchargemap.io/v2/poi/?output=kml";
-    double lat, lng;
-    String newURL;
 
+    private LocationRequest locationRequest;
     protected static final String TAG = "MainActivity";
+    TextView textView;
+    TextView latView;
+    TextView longView;
+    private Double myLat;
+    private Double myLong;
 
-    TextView mLatitudeText;
-    TextView mLongitudeText;
-    String mLatitudeLabel, mLongitudeLabel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_open_charge);
 
-        mLatitudeLabel = getResources().getString(R.string.latitude_label);
-        mLongitudeLabel = getResources().getString(R.string.longitude_label);
-        mLatitudeText = (TextView) findViewById((R.id.lat));
-        mLongitudeText = (TextView) findViewById((R.id.lng));
+        textView = (TextView) findViewById(R.id.tView);
+        latView = (TextView) findViewById(R.id.lat);
+        longView = (TextView) findViewById(R.id.longit);
 
         buildGoogleApiClient();
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(8000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     /**
      * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
      */
     protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
     }
 
     @Override
@@ -80,11 +69,24 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected()) {
+            requestLocationUpdates();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
+        mGoogleApiClient.disconnect();
     }
 
     /**
@@ -92,28 +94,41 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
      */
     @Override
     public void onConnected(Bundle connectionHint) {
-        // Provides a simple way of getting a device's location and is well suited for
-        // applications that do not require a fine-grained location and that do not need location
-        // updates. Gets the best and most recent location currently available, which may be null
-        // in rare cases when a location is not available.
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
-                    mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
-                    mLastLocation.getLongitude()));
-        } else {
+        requestLocationUpdates();
+    }
+
+    private void requestLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            Toast.makeText(this, "Please Enable Location Permissions To Execute This Function.",
+                    Toast.LENGTH_LONG).show();
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        myLat = location.getLatitude();
+        myLong = location.getLongitude();
+        latView.setText("Latitude: " + String.valueOf(myLat));
+        longView.setText("Longitude: " + String.valueOf(myLong));
+
+        if(latView == null || longView == null) {
             Toast.makeText(this, "no location detected", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
-        // onConnectionFailed.
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
-
 
     @Override
     public void onConnectionSuspended(int cause) {
@@ -122,4 +137,6 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
+
 }
+
