@@ -67,11 +67,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             buildGoogleApiClient();
 
             locationRequest = new LocationRequest();
-            locationRequest.setInterval(10000);
+            locationRequest.setInterval(30000);
             locationRequest.setFastestInterval(8000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             initMap();
+            //requestLocationUpdates();
         }
     }
 
@@ -142,9 +143,11 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     .icon(BitmapDescriptorFactory.defaultMarker(130)));
         }
 
+        //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
+
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.710574, -74.005767)).title("Test Marker"));
 
-        //For testing the navigation method: Launches google maps app with given coordinates
+        //For testing the navigation method:
         //navigate(40.710574, -74.005767, 40.758903, -73.985120);
     }
 
@@ -198,6 +201,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         myLat = location.getLatitude();
         myLong = location.getLongitude();
         Toast.makeText(this, myLat + " " + myLong, Toast.LENGTH_LONG).show();
+
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
 
         if(myLat == null || myLong== null) {
             Toast.makeText(this, "no location detected", Toast.LENGTH_LONG).show();
