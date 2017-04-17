@@ -118,5 +118,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
         double lng = address.getLongitude();
 
         goToLocationZoom(lat, lng, 15);
+        Toast.makeText(this, lat +" "+lng, Toast.LENGTH_LONG).show();
+
     }
 }
