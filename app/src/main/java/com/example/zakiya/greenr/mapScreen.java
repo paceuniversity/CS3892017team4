@@ -5,10 +5,12 @@ package com.example.zakiya.greenr;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -109,10 +112,15 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
 
             double stationLat = results.get(0).getLatitude();
             double stationLong = results.get(0).getLongitude();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat,stationLong)).title(favoritesList.get(i).getStationName()));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat,stationLong))
+                    .title(favoritesList.get(i).getStationName())
+                    .icon(BitmapDescriptorFactory.defaultMarker(130)));
         }
 
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.710574, -74.005767)).title("Test Marker"));
+
+        //For testing the navigation method: Launches google maps app with given coordinates
+        //navigate(40.710574, -74.005767, 40.758903, -73.985120);
     }
 
     private void goToLocation(double lat, double lng) {
@@ -142,5 +150,16 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
         double lng = address.getLongitude();
 
         goToLocationZoom(lat, lng, 15);
+    }
+
+    //Launches the google maps app with the given coordinates and starts navigation
+    public void navigate(double sourceLatitude, double sourceLongitude, double destLatitude, double destLongitude){
+        String sLat = Double.toString(sourceLatitude);
+        String sLng = Double.toString(sourceLongitude);
+        String dLat = Double.toString(destLatitude);
+        String dLng = Double.toString(destLongitude);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr="+sLat+","+sLng+"&daddr="+dLat+","+dLng));
+        startActivity(intent);
     }
 }
