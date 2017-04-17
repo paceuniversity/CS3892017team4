@@ -61,10 +61,12 @@
         android:layout_alignEnd="@+id/imageView7" />
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#000000"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/appBarLayout">
+        android:visibility="visible">
 
     </android.support.design.widget.AppBarLayout>
 
@@ -73,12 +75,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/btn_star_big_on"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="54dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:id="@+id/mapsbutton"
