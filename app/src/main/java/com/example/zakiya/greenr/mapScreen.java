@@ -5,11 +5,12 @@ package com.example.zakiya.greenr;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zakiya.greenr.content.ChargingStation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,10 +35,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -116,6 +122,32 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> results = new ArrayList<>();
+        ArrayList<ChargingStation> favoritesList = new ArrayList<>();
+        favoritesList.add(new ChargingStation("Test1", "1 Pace Plaza, NYC", 1, "Yes"));
+        favoritesList.add(new ChargingStation("Test2", "Columbus Park, NYC", 1, "Yes"));
+        favoritesList.add(new ChargingStation("Test3", "Canal Street Station, NYC", 1, "Yes"));
+
+        for (int i = 0; i < favoritesList.size(); i++) {
+            String location = favoritesList.get(i).getLocation();
+
+            try{
+                results = geocoder.getFromLocationName(location, 1);
+            }catch(IOException ioException){}
+
+            double stationLat = results.get(0).getLatitude();
+            double stationLong = results.get(0).getLongitude();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat,stationLong))
+                    .title(favoritesList.get(i).getStationName())
+                    .icon(BitmapDescriptorFactory.defaultMarker(130)));
+        }
+
+        //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.710574, -74.005767)).title("Test Marker"));
+
+        //For testing the navigation method: Launches google maps app with given coordinates
+        //navigate(40.710574, -74.005767, 40.758903, -73.985120);
     }
 
     private void goToLocation(double lat, double lng) {
@@ -215,5 +247,16 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     Toast.LENGTH_LONG).show();
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+    }
+
+    //Launches the google maps app with the given coordinates and starts navigation
+    public void navigate(double sourceLatitude, double sourceLongitude, double destLatitude, double destLongitude){
+        String sLat = Double.toString(sourceLatitude);
+        String sLng = Double.toString(sourceLongitude);
+        String dLat = Double.toString(destLatitude);
+        String dLng = Double.toString(destLongitude);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr="+sLat+","+sLng+"&daddr="+dLat+","+dLng));
+        startActivity(intent);
     }
 }
