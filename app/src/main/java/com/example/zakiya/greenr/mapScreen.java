@@ -85,8 +85,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         }
     }
 
-
-
     private void initMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
         mapFragment.getMapAsync(mapScreen.this);
