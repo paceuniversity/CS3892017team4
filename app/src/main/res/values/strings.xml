@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Greenr</string>
-    <string name="title_activity_favorites">Favorites</string>
-    <string name="title_activity_main">Greenr</string>
-    <string name="title_activity_map">Map</string>
-    <string name="title_activity_open_charge">OpenCharge</string>
-    <string name="latitude_label" />
-    <string name="longitude_label" />
+<string name="app_name">Greenr</string>
+<string name="title_activity_favorites">Favorites</string>
+<string name="title_activity_main">Greenr</string>
+<string name="title_activity_map">Map</string>
+<string name="title_activity_open_charge">OpenCharge</string>
+<string name="latitude_label" />
+<string name="longitude_label" />
 </resources>
