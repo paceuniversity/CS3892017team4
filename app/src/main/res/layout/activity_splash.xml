@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+
+    >
 
 
     <TextView
@@ -19,13 +20,34 @@
         android:textColorHint="@color/colorPrimary"
         android:fontFamily="sans-serif-condensed" />
 
+    <VideoView
+        android:id="@+id/VideoView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="false"
+        android:fitsSystemWindows="true"
+        android:scrollbars="none" />
+
+
     <ImageView
-        app:srcCompat="@drawable/ic_greener"
         android:id="@+id/imageView5"
-        android:layout_marginTop="156dp"
-        android:layout_height="150dp"
-        android:layout_width="1000dp"
-        android:layout_below="@+id/textView" />
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/ic_greener"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginTop="113dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:text="CLEANER AND GREENR TOGETHER"
+        android:textSize="20dp" />
 
 
 </RelativeLayout>

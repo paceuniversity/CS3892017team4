@@ -1,13 +1,14 @@
 package com.example.zakiya.greenr;
 
 /**
- * Created by Zakiya on 4/1/17.
+ * Splash Screen
  */
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.VideoView;
 
 public class SplashScreen extends Activity {
 
@@ -18,7 +19,11 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        final VideoView videoView = (VideoView) findViewById(R.id.VideoView);
+        videoView.setVideoPath(
+                "User/user/AndroidStudioProjects/Greenr/app/src/main/res/drawable/splashVideo.mp4");
 
+        videoView.start();
         new Handler().postDelayed(new Runnable() {
 
 
