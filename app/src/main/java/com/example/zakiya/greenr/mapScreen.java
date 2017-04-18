@@ -5,10 +5,12 @@ package com.example.zakiya.greenr;
  */
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -141,8 +143,19 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback {
         double lat = address.getLatitude();
         double lng = address.getLongitude();
 
-        goToLocationZoom(lat, lng, 15);
-        Toast.makeText(this, lat +" "+lng, Toast.LENGTH_LONG).show();
+        //goToLocationZoom(lat, lng, 15);
+        //Toast.makeText(this, lat +" "+lng, Toast.LENGTH_LONG).show();
+
+        //Dear Arize,
+        //This code opens up Google Maps and routes from saddr to daddr
+        //We can substitute the fields with variables
+        //saddr is currently hard coded to 33 Beekman St
+        //Yours truly,
+        //Shane 
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=40.710548,-74.0068493&daddr="+lat+","+lng));
+        startActivity(intent);
 
     }
 }
