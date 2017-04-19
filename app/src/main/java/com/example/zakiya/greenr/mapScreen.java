@@ -73,7 +73,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             initMap();
-            //requestLocationUpdates();
         }
     }
 
