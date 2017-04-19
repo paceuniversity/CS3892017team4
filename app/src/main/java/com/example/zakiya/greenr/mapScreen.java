@@ -21,15 +21,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.zakiya.greenr.content.ChargingStation;
+import com.example.zakiya.greenr.content.OpenChargeStation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -47,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,8 +63,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     MapFragment mapFragment = null;
     private Double myLat;
     private Double myLong;
-    private static final String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude=40.8357333&longitude=-73.9141208&distance=30&maxresults=1&compact=true&verbose=false&camelcase=true";
     RequestQueue requestQueue;
+    public ArrayList<OpenChargeStation> arrayOfStations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,22 +81,17 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             initMap();
+            /*I made this function : getNearbyStation(...,...)at the bottom. It takes in two strings, the latitutde and
+             longitude, then returns an ArrayList of OpenChargeStations within 30 miles of the latitude and longitude.
+            You can then go through this list and extract whatever info you like. The class can be found in the
+            content folder.
 
-            JsonArrayRequest arrayRequest = new JsonArrayRequest(url,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("Volley", "Error");
-                }});
-            requestQueue.add(arrayRequest);
-            }
+            */
+
+            //Eg:
+            // getNearbyStations("40.8357333", "-73.9141208");
         }
-        //makeJSONArrayRequest();
+    }
 
     protected synchronized void buildGoogleApiClient() {
         if (mGoogleApiClient == null) {
@@ -263,13 +258,13 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private void requestLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+      /*       TO: Consider calling
+                ActivityCompat#requestPermissions
+             here to request the missing permissions, and then overriding
+              public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                    int[] grantResults)
+             to handle the case where the user grants the permission. See the documentation
+             for ActivityCompat#requestPermissions for more details.*/
 
             Toast.makeText(this, "Please Enable Location Permissions To Execute This Function.",
                     Toast.LENGTH_LONG).show();
@@ -288,22 +283,42 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         startActivity(intent);
     }
 
+    //Input the latitude coordinates and longitude coordinates "AS STRINGS"
 
-/*    private void makeJSONArrayRequest() {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.d(TAG, response.toString());
-            }
-        }, new Response.ErrorListener() {
+    private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor){
+        String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude="+ latCoor + "&longitude=" +
+               longCoor + "&distance=30&maxresults=3&compact=true&verbose=false&camelcase=true";
+        arrayOfStations = new ArrayList<>();
+
+        JsonArrayRequest arrayRequest = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonObj = response.getJSONObject(i).getJSONObject("addressInfo");
+                                  OpenChargeStation openChargeStation = new OpenChargeStation(
+                                            jsonObj.getInt("id"), jsonObj.getString("title"), jsonObj.getString("addressLine1"),
+                                            jsonObj.getString("town"), jsonObj.getString("stateOrProvince"), jsonObj.getString("postcode"),
+                                            jsonObj.getLong("latitude"), jsonObj.getLong("longitude"), jsonObj.getString("contactTelephone1")
+                                    );
+                                    arrayOfStations.add(openChargeStation);
+                                Log.i(TAG, "JSON parsed correctly: \n" + openChargeStation.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, "Problem parsing JSON");
+                            }
+                        }
+                        //  Toast.makeText(getApplicationContext(), arrayOfStations.get(0).toString(), Toast.LENGTH_LONG).show();
+                        // Put code to use data here
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("HTTP ERROR.");
-                error.printStackTrace();
+                Log.e("Volley", "Error");
             }
         });
-
-        RequestApp.getInstance().addToRequestQueue(jsonArrayRequest);
-    }*/
-
+        requestQueue.add(arrayRequest);
+        return arrayOfStations;
+    }
 }
