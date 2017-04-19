@@ -7,11 +7,11 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class ChargingStation {
-
     private String stationName;
     private String location;
     private int level;
     private String membershipRequired;
+
 
     public ChargingStation(){
     }
