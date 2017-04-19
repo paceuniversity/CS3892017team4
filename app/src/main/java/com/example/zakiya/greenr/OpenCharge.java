@@ -115,6 +115,7 @@ public class OpenCharge extends AppCompatActivity implements GoogleApiClient.Con
 
     @Override
     public void onLocationChanged(Location location) {
+        // This is where the location is received.
         myLat = location.getLatitude();
         myLong = location.getLongitude();
         latView.setText("Latitude: " + String.valueOf(myLat));
