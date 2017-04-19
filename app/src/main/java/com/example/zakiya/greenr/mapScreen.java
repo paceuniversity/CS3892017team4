@@ -76,20 +76,10 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             buildGoogleApiClient();
 
             locationRequest = new LocationRequest();
-            locationRequest.setInterval(30000);
-            locationRequest.setFastestInterval(30000);
+            locationRequest.setInterval(50000);
+            locationRequest.setFastestInterval(20000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
             initMap();
-            /*I made this function : getNearbyStation(...,...)at the bottom. It takes in two strings, the latitutde and
-             longitude, then returns an ArrayList of OpenChargeStations within 30 miles of the latitude and longitude.
-            You can then go through this list and extract whatever info you like. The class can be found in the
-            content folder.
-
-            */
-
-            //Eg:
-            // getNearbyStations("40.8357333", "-73.9141208");
         }
     }
 
@@ -220,7 +210,25 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     public void onLocationChanged(Location location) {
         myLat = location.getLatitude();
         myLong = location.getLongitude();
-        //Toast.makeText(this, myLat + " " + myLong, Toast.LENGTH_LONG).show();
+
+        try {
+            String lati = String.valueOf(myLat);
+            String longi = String.valueOf(myLong);
+
+            /*This function : getNearbyStation(...,...) takes three parameters, the latitutde and
+             longitude and distance, then returns an ArrayList of OpenChargeStations
+             within the specified distance from the specified latitude and longitude.
+             Currently, it runs with the lat and long of your current location with a distance of 30.
+            You can iterate through  the list "arrayofStations" after this executs and
+             extract lat and long of each station to show on the screen.
+              The OpenChargeStation class can be found in the content folder.
+            */
+            arrayOfStations = getNearbyStations(lati, longi, "30");
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Problem converting coordinates to String.");
+        }
 
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
 
@@ -285,9 +293,9 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     //Input the latitude coordinates and longitude coordinates "AS STRINGS"
 
-    private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor){
-        String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude="+ latCoor + "&longitude=" +
-               longCoor + "&distance=30&maxresults=3&compact=true&verbose=false&camelcase=true";
+    private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor, String distance) {
+        String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude=" + latCoor + "&longitude=" +
+                longCoor + "&distance="+ distance +"&maxresults=3&compact=true&verbose=false&camelcase=true";
         arrayOfStations = new ArrayList<>();
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(url,
@@ -297,12 +305,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jsonObj = response.getJSONObject(i).getJSONObject("addressInfo");
-                                  OpenChargeStation openChargeStation = new OpenChargeStation(
-                                            jsonObj.getInt("id"), jsonObj.getString("title"), jsonObj.getString("addressLine1"),
-                                            jsonObj.getString("town"), jsonObj.getString("stateOrProvince"), jsonObj.getString("postcode"),
-                                            jsonObj.getLong("latitude"), jsonObj.getLong("longitude"), jsonObj.getString("contactTelephone1")
-                                    );
-                                    arrayOfStations.add(openChargeStation);
+                                OpenChargeStation openChargeStation = new OpenChargeStation(
+                                        jsonObj.getInt("id"), jsonObj.getString("title"), jsonObj.getString("addressLine1"),
+                                        jsonObj.getString("town"), jsonObj.getString("stateOrProvince"), jsonObj.getString("postcode"),
+                                        jsonObj.getLong("latitude"), jsonObj.getLong("longitude"), jsonObj.getString("contactTelephone1")
+                                );
+                                arrayOfStations.add(openChargeStation);
                                 Log.i(TAG, "JSON parsed correctly: \n" + openChargeStation.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
