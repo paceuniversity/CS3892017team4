@@ -42,6 +42,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -53,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
@@ -116,6 +117,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        googleMap.setOnMarkerClickListener(this);
         goToLocationZoom(40.7131212, -74.0006327, 15);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -295,7 +297,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor, String distance) {
         String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude=" + latCoor + "&longitude=" +
-                longCoor + "&distance="+ distance +"&maxresults=3&compact=true&verbose=false&camelcase=true";
+                longCoor + "&distance=" + distance + "&maxresults=3&compact=true&verbose=false&camelcase=true";
         arrayOfStations = new ArrayList<>();
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(url,
@@ -311,6 +313,18 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                                         jsonObj.getLong("latitude"), jsonObj.getLong("longitude"), jsonObj.getString("contactTelephone1")
                                 );
                                 arrayOfStations.add(openChargeStation);
+                                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                                for (int k = 0; k < arrayOfStations.size(); k++) {
+                                    //String location = arrayOfStations.get(i).getLocation();
+
+                                    Long stationLat = arrayOfStations.get(i).getLatitude();
+                                    Long stationLong = arrayOfStations.get(i).getLongitude();
+                                    mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
+                                            .title(arrayOfStations.get(i).getTitle())
+                                            .icon(BitmapDescriptorFactory.defaultMarker(130)));
+
+                                }
+
                                 Log.i(TAG, "JSON parsed correctly: \n" + openChargeStation.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -329,4 +343,17 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         requestQueue.add(arrayRequest);
         return arrayOfStations;
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (true) {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
+            startActivity(intent);
+        }
+        return false;
+
+    }
+
+
+
 }
