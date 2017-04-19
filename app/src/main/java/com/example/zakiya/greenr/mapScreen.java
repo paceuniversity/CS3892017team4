@@ -37,6 +37,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
 
    private GoogleApiClient mGoogleApiClient;
    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
@@ -110,6 +111,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         goToLocationZoom(40.7131212,-74.0006327,15);
+        googleMap.setOnMarkerClickListener(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -261,5 +263,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?saddr="+sLat+","+sLng+"&daddr="+dLat+","+dLng));
         startActivity(intent);
+    }
+
+    //this method is hard coded to open Google Maps and route directions from 1 Pace Plaza to the canal street station when clicked
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
+        return true;
     }
 }
