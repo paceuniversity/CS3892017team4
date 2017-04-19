@@ -37,6 +37,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
 
    private GoogleApiClient mGoogleApiClient;
    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
@@ -110,6 +111,9 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "(:", Toast.LENGTH_LONG).show();
         mGoogleMap = googleMap;
+
+        googleMap.setOnMarkerClickListener(this); 
+
         goToLocationZoom(40.7131212,-74.0006327,15);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -181,12 +185,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         //goToLocationZoom(lat, lng, 15);
         //Toast.makeText(this, lat +" "+lng, Toast.LENGTH_LONG).show();
 
-        //Dear Arize,
-        //This code opens up Google Maps and routes from saddr to daddr
-        //We can substitute the fields with variables
-        //saddr is currently hard coded to 33 Beekman St
-        //Yours truly,
-        //Shane
+
 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?saddr=40.710548,-74.0068493&daddr="+lat+","+lng));
@@ -275,5 +274,16 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?saddr="+sLat+","+sLng+"&daddr="+dLat+","+dLng));
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        if(true){
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,  Uri.parse("http://maps.google.com/maps?saddr=40.710968, -74.004730+&daddr=40.718303,-73.999195"));
+            startActivity(intent);
+        }
+
+        return false;
     }
 }
