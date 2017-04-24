@@ -113,7 +113,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         return false;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
@@ -134,8 +133,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> results = new ArrayList<>();
         ArrayList<ChargingStation> favoritesList = new ArrayList<>();
-        favoritesList.add(new ChargingStation("Test1", "1 Pace Plaza, NYC", 1, "Yes"));
-        favoritesList.add(new ChargingStation("Test2", "Columbus Park, NYC", 1, "Yes"));
+        /*favoritesList.add(new ChargingStation("Test1", "1 Pace Plaza, NYC", 1, "Yes"));
+        favoritesList.add(new ChargingStation("Test2", "Columbus Park, NYC", 1, "Yes"));*/
         favoritesList.add(new ChargingStation("Test3", "Canal Street Station, NYC", 1, "Yes"));
 
         for (int i = 0; i < favoritesList.size(); i++) {
@@ -150,7 +149,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             double stationLong = results.get(0).getLongitude();
             googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
                     .title(favoritesList.get(i).getStationName())
-                    .icon(BitmapDescriptorFactory.defaultMarker(130)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(130)))
+                    .setTag(i);
         }
 
         //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
@@ -216,7 +216,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         try {
             String lati = String.valueOf(myLat);
             String longi = String.valueOf(myLong);
-
             /*This function : getNearbyStation(...,...) takes three parameters, the latitutde and
              longitude and distance, then returns an ArrayList of OpenChargeStations
              within the specified distance from the specified latitude and longitude.
@@ -225,7 +224,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
              extract lat and long of each station to show on the screen.
               The OpenChargeStation class can be found in the content folder.
             */
-            arrayOfStations = getNearbyStations(lati, longi, "30");
+            arrayOfStations = getNearbyStations(lati, longi, "100");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -297,7 +296,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor, String distance) {
         String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude=" + latCoor + "&longitude=" +
-                longCoor + "&distance=" + distance + "&maxresults=3&compact=true&verbose=false&camelcase=true";
+                longCoor + "&distance=" + distance + "&maxresults=5&compact=true&verbose=false&camelcase=true";
         arrayOfStations = new ArrayList<>();
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(url,
@@ -310,22 +309,22 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                                 OpenChargeStation openChargeStation = new OpenChargeStation(
                                         jsonObj.getInt("id"), jsonObj.getString("title"), jsonObj.getString("addressLine1"),
                                         jsonObj.getString("town"), jsonObj.getString("stateOrProvince"), jsonObj.getString("postcode"),
-                                        jsonObj.getLong("latitude"), jsonObj.getLong("longitude"), jsonObj.getString("contactTelephone1")
+                                        jsonObj.getDouble("latitude"), jsonObj.getDouble("longitude"), jsonObj.getString("contactTelephone1")
                                 );
                                 arrayOfStations.add(openChargeStation);
                                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                                 for (int k = 0; k < arrayOfStations.size(); k++) {
                                     //String location = arrayOfStations.get(i).getLocation();
 
-                                    Long stationLat = arrayOfStations.get(i).getLatitude();
-                                    Long stationLong = arrayOfStations.get(i).getLongitude();
+                                    double stationLat = arrayOfStations.get(i).getLatitude();
+                                    double stationLong = arrayOfStations.get(i).getLongitude();
                                     mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
                                             .title(arrayOfStations.get(i).getTitle())
                                             .icon(BitmapDescriptorFactory.defaultMarker(130)));
 
                                 }
 
-                                Log.i(TAG, "JSON parsed correctly: \n" + openChargeStation.toString());
+                                Log.i(TAG, "OpenCharge parsed correctly: \n" + openChargeStation.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(TAG, "Problem parsing JSON");
@@ -346,14 +345,24 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        //how to get unique station data on marker click?
+        // When the marker is created... Do marker.setTag(i) --done
+        //Then when it is clicked, do arrayOfStations.get(marker.getTag())... This returns the appropriate OpenChargeStation class
+        //Then use the coordinates in there to execute the Intent (May have to use CASE function)
+        //https://developers.google.com/maps/documentation/android-api/marker
+
+        OpenChargeStation openChargeStationThis = new OpenChargeStation();
+
         if (true) {
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
             startActivity(intent);
         }
         return false;
-
     }
 
 
+    private String getMarkersCoordinates(int i) {
+        return null;
+    }
 
 }
