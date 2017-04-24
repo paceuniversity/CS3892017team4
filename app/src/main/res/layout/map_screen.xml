@@ -10,7 +10,7 @@
         android:id="@+id/mapfragment"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="0dp"
-        android:layout_height="636dp"
+        android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
@@ -21,7 +21,7 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="236dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
         android:hint="Search for a place"
@@ -37,8 +37,8 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="8dp"
         android:onClick="geoLocate"
         android:text="Search"

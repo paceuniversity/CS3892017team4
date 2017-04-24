@@ -30,7 +30,7 @@ public class findStation extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.listview, R.id.label_list, listOfStations);
+                R.layout.listview, R.id.fav1, listOfStations);
 
         final ListView listView = (ListView) findViewById(R.id.charging_stations_list);
         listView.setAdapter(adapter);

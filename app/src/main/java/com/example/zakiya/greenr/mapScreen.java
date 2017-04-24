@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -67,6 +68,10 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     RequestQueue requestQueue;
     public ArrayList<OpenChargeStation> arrayOfStations;
 
+    TextView mLatitudeText;
+    TextView mLongitudeText;
+    String mLatitudeLabel, mLongitudeLabel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +117,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         }
         return false;
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -191,9 +197,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        requestLocationUpdates();
-    }
+    public void onConnected(@Nullable Bundle bundle) {requestLocationUpdates();}
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -216,6 +220,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         try {
             String lati = String.valueOf(myLat);
             String longi = String.valueOf(myLong);
+
             /*This function : getNearbyStation(...,...) takes three parameters, the latitutde and
              longitude and distance, then returns an ArrayList of OpenChargeStations
              within the specified distance from the specified latitude and longitude.
@@ -224,7 +229,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
              extract lat and long of each station to show on the screen.
               The OpenChargeStation class can be found in the content folder.
             */
-            arrayOfStations = getNearbyStations(lati, longi, "100");
+            arrayOfStations = getNearbyStations(lati, longi, "30");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
