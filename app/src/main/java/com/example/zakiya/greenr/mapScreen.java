@@ -100,7 +100,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     private void initMap() {
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
         mapFragment.getMapAsync(mapScreen.this);
     }
 
@@ -112,6 +112,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         } else if (api.isUserResolvableError(isAvailable)) {
             Dialog dialog = api.getErrorDialog(this, isAvailable, 0);
             dialog.show();
+            Log.e(TAG, "Google Services not available");
         } else {
             Toast.makeText(this, "):", Toast.LENGTH_LONG).show();
         }
@@ -139,8 +140,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> results = new ArrayList<>();
         ArrayList<ChargingStation> favoritesList = new ArrayList<>();
-        /*favoritesList.add(new ChargingStation("Test1", "1 Pace Plaza, NYC", 1, "Yes"));
-        favoritesList.add(new ChargingStation("Test2", "Columbus Park, NYC", 1, "Yes"));*/
         favoritesList.add(new ChargingStation("Test3", "Canal Street Station, NYC", 1, "Yes"));
 
         for (int i = 0; i < favoritesList.size(); i++) {
@@ -149,6 +148,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             try {
                 results = geocoder.getFromLocationName(location, 1);
             } catch (IOException ioException) {
+                Log.e(TAG, "GEOCOER error");
+                ioException.printStackTrace();
             }
 
             double stationLat = results.get(0).getLatitude();
@@ -326,15 +327,13 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                                     mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
                                             .title(arrayOfStations.get(i).getTitle())
                                             .icon(BitmapDescriptorFactory.defaultMarker(130)));
-
                                 }
-
-                                Log.i(TAG, "OpenCharge parsed correctly: \n" + openChargeStation.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(TAG, "Problem parsing JSON");
                             }
                         }
+                        Log.i(TAG, "OpenCharge parsed correctly: \n" + arrayOfStations.get(0).toString());
                         //  Toast.makeText(getApplicationContext(), arrayOfStations.get(0).toString(), Toast.LENGTH_LONG).show();
                         // Put code to use data here
                     }
@@ -358,16 +357,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
         OpenChargeStation openChargeStationThis = new OpenChargeStation();
 
-        if (true) {
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
-            startActivity(intent);
-        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
+        startActivity(intent);
         return false;
     }
-
 
     private String getMarkersCoordinates(int i) {
         return null;
     }
-
 }
