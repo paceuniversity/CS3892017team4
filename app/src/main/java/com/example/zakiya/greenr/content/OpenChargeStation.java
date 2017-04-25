@@ -12,15 +12,15 @@ public class OpenChargeStation {
     private String town;
     private String stateOrProvince;
     private String postcode;
-    private Long latitude;
-    private Long longitude;
+    private double latitude;
+    private double longitude;
     private String contactTelephone1;
 
     public OpenChargeStation(){
 
     }
 
-    public OpenChargeStation(int id, String title, String addressLine1, String town, String stateOrProvince, String postcode, Long latitude, Long longitude, String contactTelephone1) {
+    public OpenChargeStation(int id, String title, String addressLine1, String town, String stateOrProvince, String postcode, double latitude, double longitude, String contactTelephone1) {
         this.id = id;
         this.title = title;
         this.addressLine1 = addressLine1;
@@ -81,19 +81,19 @@ public class OpenChargeStation {
         this.postcode = postcode;
     }
 
-    public Long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
