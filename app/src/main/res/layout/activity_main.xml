@@ -13,53 +13,6 @@
     android:background="@color/colorPrimary">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="?android:attr/homeAsUpIndicator"
-        android:id="@+id/imageView7"
-        android:tint="@android:color/background_light"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_toLeftOf="@+id/textView5"
-        android:layout_toStartOf="@+id/textView5"
-        android:layout_marginRight="13dp"
-        android:layout_marginEnd="13dp" />
-
-    <TextView
-        android:text="我的位置 "
-        android:textColor= "#000000"
-        android:layout_marginTop="25dp"
-        android:id="@+id/textView5"
-        android:background="@android:color/background_light"
-        android:layout_alignParentTop="true"
-        android:layout_height="20dp"
-        android:layout_width="400dp"
-        android:layout_toRightOf="@+id/favoriteButton"
-        android:layout_toEndOf="@+id/favoriteButton"
-        tools:text="我的位置 "
-        android:hint="我的位置 " />
-
-    <TextView
-        android:text="充电站位置"
-        android:layout_marginTop="16dp"
-        android:id="@+id/textView4"
-        android:background="@android:color/background_light"
-        android:layout_height="20dp"
-        android:layout_width="400dp"
-        android:layout_below="@+id/textView5"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:id="@+id/imageView4"
-        android:tint="@android:color/background_light"
-        android:layout_alignTop="@+id/textView4"
-        android:layout_alignRight="@+id/imageView7"
-        android:layout_alignEnd="@+id/imageView7" />
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,37 +21,50 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ImageButton
-        android:id="@+id/favoriteButton"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:layout_marginBottom="56dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:text="Welcome to Greenr!"
+        android:textSize="30sp"
+        android:layout_below="@+id/appBarLayout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:text="Greenr is designed to help you be more enviromental friendly by providing navigation to electric charging car stations. Use the maps capability to easily find the location and information of thousands of Tesla charging station. Information includes availability and charging level."
+        android:textSize="18sp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:id="@+id/mapsbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/favoriteButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:onClick="onClick"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="117dp"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
-    <TextView
-        android:id="@+id/AppName"
+    <ImageButton
+        android:id="@+id/favoriteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/mapsbutton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
-        android:textSize="75dp"
-        android:text="Greenr" />
+        android:layout_alignEnd="@+id/mapsbutton"
+        android:layout_alignRight="@+id/mapsbutton"
+        android:layout_below="@+id/mapsbutton"
+        android:layout_marginTop="47dp"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
 
 </RelativeLayout>

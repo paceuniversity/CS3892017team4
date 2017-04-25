@@ -73,7 +73,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             initMap();
-            //requestLocationUpdates();
         }
     }
 
@@ -109,12 +108,9 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "(:", Toast.LENGTH_LONG).show();
         mGoogleMap = googleMap;
-
-        googleMap.setOnMarkerClickListener(this); 
-
         goToLocationZoom(40.7131212,-74.0006327,15);
+        googleMap.setOnMarkerClickListener(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -182,15 +178,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         double lat = address.getLatitude();
         double lng = address.getLongitude();
 
-        //goToLocationZoom(lat, lng, 15);
-        //Toast.makeText(this, lat +" "+lng, Toast.LENGTH_LONG).show();
-
-
-
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr=40.710548,-74.0068493&daddr="+lat+","+lng));
-        startActivity(intent);
-
+        goToLocationZoom(lat, lng, 15);
     }
 
     @Override
@@ -276,14 +264,10 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         startActivity(intent);
     }
 
+    //this method is hard coded to open Google Maps and route directions from 1 Pace Plaza to the canal street station when clicked
     @Override
     public boolean onMarkerClick(Marker marker) {
-
-        if(true){
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,  Uri.parse("http://maps.google.com/maps?saddr=40.710968, -74.004730+&daddr=40.718303,-73.999195"));
-            startActivity(intent);
-        }
-
-        return false;
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
+        return true;
     }
 }

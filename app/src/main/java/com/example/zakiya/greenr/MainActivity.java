@@ -43,15 +43,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(i);
     }
 
+  /*  public void loadOpenChargeScreen(View v) {
+        Log.i("clicks", "You Clicked The OpenCharge Button");
+        Intent i = new Intent(MainActivity.this, OpenCharge.class);
+        startActivity(i);
+    }*/
+    public void loadFavoriteStations(View v) {
+        Log.i("clicks", "You Clicked The Favorites Button");
+        Intent i = new Intent(MainActivity.this, favoritesScreen.class);
+        startActivity(i);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.favoriteButton:
-                goToFavorites(v);
-                break;
             case R.id.mapsbutton:
-                loadMapScreen(v);
+               loadMapScreen(v);
                 break;
+            case R.id.favoriteButton:
+                loadFavoriteStations(v);
+
         }
     }
 
