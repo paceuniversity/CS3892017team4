@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Greenr</string>
+    <string name="title_activity_favorites">喜爱</string>
+    <string name="title_activity_main">格林尔</string>
+    <string name="title_activity_map">地图</string>
+    <string name="title_activity_open_charge">开放收费</string>
+</resources>
