@@ -7,8 +7,6 @@ package com.example.zakiya.greenr;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -55,38 +53,76 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
+public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+    // GoogleMap.OnMarkerClickListener
 
     private GoogleApiClient mGoogleApiClient;
-    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
-    private LocationRequest locationRequest;
+    MapFragment mapFragment;
+    Marker currentLocationMarker;
+    private GoogleMap mMap;
+    LatLng currentLocation;
     protected static final String TAG = "MainActivity";
-    GoogleMap mGoogleMap;
-    MapFragment mapFragment = null;
-    private Double myLat;
-    private Double myLong;
     RequestQueue requestQueue;
-    public ArrayList<OpenChargeStation> arrayOfStations;
+    private LocationRequest locationRequest;
+    private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
+    private ArrayList<OpenChargeStation> arrayOfStations;
 
-    TextView mLatitudeText;
-    TextView mLongitudeText;
-    String mLatitudeLabel, mLongitudeLabel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
         if (googleServicesAvailable()) {
+            super.onCreate(savedInstanceState);
             setContentView(R.layout.map_screen);
             requestQueue = Volley.newRequestQueue(this);
 
-            buildGoogleApiClient();
-
-            locationRequest = new LocationRequest();
+            locationRequest=new LocationRequest();
             locationRequest.setInterval(50000);
             locationRequest.setFastestInterval(20000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+            buildGoogleApiClient();
             initMap();
+        } else {
+            Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void initMap(){
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+            requestLocationUpdates();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+/*        if(currentLocation != null) {
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(currentLocation)
+                    .title("Current Position"));
+            //googleMap.setOnMarkerClickListener(this);
+            goToLocationZoom(currentLocation, 10);*/
+       /* if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }*/
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -97,11 +133,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     .addApi(LocationServices.API)
                     .build();
         }
-    }
-
-    private void initMap() {
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
-        mapFragment.getMapAsync(mapScreen.this);
     }
 
     public boolean googleServicesAvailable() {
@@ -121,130 +152,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        googleMap.setOnMarkerClickListener(this);
-        goToLocationZoom(40.7131212, -74.0006327, 15);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mGoogleMap.setMyLocationEnabled(true);
-
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> results = new ArrayList<>();
-        ArrayList<ChargingStation> favoritesList = new ArrayList<>();
-        favoritesList.add(new ChargingStation("Test3", "Canal Street Station, NYC", 1, "Yes"));
-
-        for (int i = 0; i < favoritesList.size(); i++) {
-            String location = favoritesList.get(i).getLocation();
-
-            try {
-                results = geocoder.getFromLocationName(location, 1);
-            } catch (IOException ioException) {
-                Log.e(TAG, "GEOCOER error");
-                ioException.printStackTrace();
-            }
-
-            double stationLat = results.get(0).getLatitude();
-            double stationLong = results.get(0).getLongitude();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
-                    .title(favoritesList.get(i).getStationName())
-                    .icon(BitmapDescriptorFactory.defaultMarker(130)))
-                    .setTag(i);
-        }
-
-        //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
-
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.710574, -74.005767)).title("Test Marker"));
-
-        //For testing the navigation method:
-        //navigate(40.710574, -74.005767, 40.758903, -73.985120);
-    }
-
-    private void goToLocation(double lat, double lng) {
-        LatLng ll = new LatLng(lat, lng);
-        CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
-        mGoogleMap.moveCamera(update);
-    }
-
-    private void goToLocationZoom(double lat, double lng, float zoom) {
-        LatLng ll = new LatLng(lat, lng);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
-        mGoogleMap.moveCamera(update);
-    }
-
-    public void geoLocate(View view) throws IOException {
-        EditText et = (EditText) findViewById(R.id.editText);
-        String location = et.getText().toString();
-
-        Geocoder gc = new Geocoder(this);
-        List<Address> list = gc.getFromLocationName(location, 1);
-        android.location.Address address = list.get(0);
-        String locality = address.getLocality();
-
-        Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
-
-        double lat = address.getLatitude();
-        double lng = address.getLongitude();
-
-        goToLocationZoom(lat, lng, 15);
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {requestLocationUpdates();}
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        // The connection to Google Play services was lost for some reason. We call connect() to
-        // attempt to re-establish the connection.
-        Log.i(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        myLat = location.getLatitude();
-        myLong = location.getLongitude();
-
-        try {
-            String lati = String.valueOf(myLat);
-            String longi = String.valueOf(myLong);
-
-            /*This function : getNearbyStation(...,...) takes three parameters, the latitutde and
-             longitude and distance, then returns an ArrayList of OpenChargeStations
-             within the specified distance from the specified latitude and longitude.
-             Currently, it runs with the lat and long of your current location with a distance of 30.
-            You can iterate through  the list "arrayofStations" after this executs and
-             extract lat and long of each station to show on the screen.
-              The OpenChargeStation class can be found in the content folder.
-            */
-            arrayOfStations = getNearbyStations(lati, longi, "30");
-
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Problem converting coordinates to String.");
-        }
-
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(myLat, myLong)).title("Your Location"));
-
-        if (myLat == null || myLong == null) {
-            Toast.makeText(this, "no location detected", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
@@ -258,11 +165,10 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         }
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        locationProviderApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     @Override
@@ -271,31 +177,29 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         mGoogleApiClient.disconnect();
     }
 
+    private void goToLocationZoom(LatLng latAndLong, float zoom) {
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latAndLong, zoom);
+        mMap.moveCamera(update);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+        currentLocationMarker= mMap.addMarker(new MarkerOptions()
+                .position(currentLocation).title("Your Location"));
+        goToLocationZoom(currentLocation, 10);
+
+        String lat = String.valueOf(location.getLatitude());
+        String longitude = String.valueOf(location.getLongitude());
+        getNearbyStations(lat, longitude, "30");
+    }
+
     private void requestLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      /*       TO: Consider calling
-                ActivityCompat#requestPermissions
-             here to request the missing permissions, and then overriding
-              public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                                    int[] grantResults)
-             to handle the case where the user grants the permission. See the documentation
-             for ActivityCompat#requestPermissions for more details.*/
-
             Toast.makeText(this, "Please Enable Location Permissions To Execute This Function.",
                     Toast.LENGTH_LONG).show();
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
-    }
-
-    //Launches the google maps app with the given coordinates and starts navigation
-    public void navigate(double sourceLatitude, double sourceLongitude, double destLatitude, double destLongitude) {
-        String sLat = Double.toString(sourceLatitude);
-        String sLng = Double.toString(sourceLongitude);
-        String dLat = Double.toString(destLatitude);
-        String dLng = Double.toString(destLongitude);
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr=" + sLat + "," + sLng + "&daddr=" + dLat + "," + dLng));
-        startActivity(intent);
+        locationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
     }
 
     //Input the latitude coordinates and longitude coordinates "AS STRINGS"
@@ -318,24 +222,13 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                                         jsonObj.getDouble("latitude"), jsonObj.getDouble("longitude"), jsonObj.getString("contactTelephone1")
                                 );
                                 arrayOfStations.add(openChargeStation);
-                                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                                for (int k = 0; k < arrayOfStations.size(); k++) {
-                                    //String location = arrayOfStations.get(i).getLocation();
-
-                                    double stationLat = arrayOfStations.get(i).getLatitude();
-                                    double stationLong = arrayOfStations.get(i).getLongitude();
-                                    mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(stationLat, stationLong))
-                                            .title(arrayOfStations.get(i).getTitle())
-                                            .icon(BitmapDescriptorFactory.defaultMarker(130)));
-                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(TAG, "Problem parsing JSON");
                             }
                         }
                         Log.i(TAG, "OpenCharge parsed correctly: \n" + arrayOfStations.get(0).toString());
-                        //  Toast.makeText(getApplicationContext(), arrayOfStations.get(0).toString(), Toast.LENGTH_LONG).show();
-                        // Put code to use data here
+                        populateMapWithStations();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -347,22 +240,18 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         return arrayOfStations;
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        //how to get unique station data on marker click?
-        // When the marker is created... Do marker.setTag(i) --done
-        //Then when it is clicked, do arrayOfStations.get(marker.getTag())... This returns the appropriate OpenChargeStation class
-        //Then use the coordinates in there to execute the Intent (May have to use CASE function)
-        //https://developers.google.com/maps/documentation/android-api/marker
-
-        OpenChargeStation openChargeStationThis = new OpenChargeStation();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com?saddr=40.710968, -74.004730+&daddr=40.718303, -73.999195"));
-        startActivity(intent);
-        return false;
-    }
-
-    private String getMarkersCoordinates(int i) {
-        return null;
+    private void populateMapWithStations() {
+        //Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        Marker mapMarker;
+        for (int i = 0; i < arrayOfStations.size(); i++) {
+            double stationLat = arrayOfStations.get(i).getLatitude();
+            double stationLong = arrayOfStations.get(i).getLongitude();
+             mapMarker = mMap.addMarker(new MarkerOptions()
+                     .position(new LatLng(stationLat, stationLong))
+                    .title(arrayOfStations.get(i).getTitle())
+                    .icon(BitmapDescriptorFactory.defaultMarker(130)));
+            mapMarker.setTag(i);
+           //Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
+        }
     }
 }
