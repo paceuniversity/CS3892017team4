@@ -25,7 +25,7 @@ public class findStation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout);
+        setContentView(R.layout.activity_find_station);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
@@ -55,6 +55,7 @@ public class findStation extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Read each child of the user
                 Log.d("Retrieve Data", "Charging Stations Being Retrieved.");
+
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ChargingStation cS = child.getValue(ChargingStation.class);
