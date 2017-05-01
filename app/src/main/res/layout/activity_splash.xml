@@ -8,7 +8,6 @@
     android:orientation="vertical"
     android:background="@drawable/splashimg">
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -21,9 +20,5 @@
         android:textColor="#FFFFFF"
         android:textColorHint="@color/colorPrimary"
         android:textSize="48sp" />
-
-
-
-
 
 </RelativeLayout>
