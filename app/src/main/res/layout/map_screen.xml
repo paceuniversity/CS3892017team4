@@ -9,8 +9,9 @@
     <fragment
         android:id="@+id/mapfragment"
         android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       />
+        android:layout_width="0dp"
+        android:layout_height="643dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="0dp" />
 
 </android.support.constraint.ConstraintLayout>

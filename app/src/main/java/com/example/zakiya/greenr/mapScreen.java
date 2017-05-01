@@ -95,7 +95,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-            requestLocationUpdates();
+        requestLocationUpdates();
     }
 
     @Override
@@ -237,12 +237,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         for (int i = 0; i < arrayOfStations.size(); i++) {
             double stationLat = arrayOfStations.get(i).getLatitude();
             double stationLong = arrayOfStations.get(i).getLongitude();
-             mapMarker = mMap.addMarker(new MarkerOptions()
-                     .position(new LatLng(stationLat, stationLong))
+            mapMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(stationLat, stationLong))
                     .title(arrayOfStations.get(i).getTitle())
                     .icon(BitmapDescriptorFactory.defaultMarker(130)));
             mapMarker.setTag(i);
-           //Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
         }
     }
 }

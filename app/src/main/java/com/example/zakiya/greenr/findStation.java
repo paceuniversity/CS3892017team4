@@ -56,6 +56,7 @@ public class findStation extends AppCompatActivity {
                 //Read each child of the user
                 Log.d("Retrieve Data", "Charging Stations Being Retrieved.");
 
+
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     ChargingStation cS = child.getValue(ChargingStation.class);
                     listOfStations.add(cS.toString());
