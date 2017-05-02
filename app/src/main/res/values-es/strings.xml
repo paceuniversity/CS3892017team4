@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Greenr</string>
+    <string name="title_activity_favorites">Favoritos</string>
+    <string name="title_activity_main">Verde</string>
+    <string name="title_activity_map">Mapa</string>
+    <string name="title_activity_open_charge">Cargo Abierto</string>
+    <string name="about">Greenr está diseñado para ayudarle a ser más amigable con el medio ambiente, proporcionando la navegación a las estaciones de carga eléctrica de coches.Utilice la capacidad de mapas para encontrar fácilmente la ubicación y la información de miles de Tesla estación de carga.La información incluye la disponibilidad y el nivel de carga.</string>
+    <string name="longitude_label">longitud</string>
+    <string name="latitude_label">latitud</string>
+    <string name="Welcome">Beinvenido a Greenr!</string>
+</resources>

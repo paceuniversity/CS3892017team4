@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/splashimg">
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -19,5 +20,21 @@
         android:text="GREENR"
         android:textColor="#FFFFFF"
         android:textColorHint="@color/colorPrimary"
-        android:textSize="48sp" />
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="CLEANER AND CREENR TOGETHER"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="24sp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+
 </RelativeLayout>
