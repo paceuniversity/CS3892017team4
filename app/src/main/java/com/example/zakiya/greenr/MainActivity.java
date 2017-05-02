@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ImageButton favButton = (ImageButton) findViewById(R.id.favoriteButton);
+        Button favButton = (Button) findViewById(R.id.favoriteButton);
         favButton.setOnClickListener(this);
 
-        ImageButton mapButton = (ImageButton) findViewById(R.id.mapsbutton);
+        Button mapButton = (Button) findViewById(R.id.mapsbutton);
         mapButton.setOnClickListener(this);
     }
 

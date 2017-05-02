@@ -34,17 +34,6 @@
 
         </ListView>
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
-            android:text="Add" />
     </RelativeLayout>
 
     <android.support.design.widget.AppBarLayout
@@ -61,5 +50,20 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="41dp"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/charging_stations_list"
+        android:layout_toRightOf="@+id/charging_stations_list"
+        android:background="@drawable/ic_menu_black_24dp"
+        app:layout_anchor="@+id/relativeLayout2"
+        app:layout_anchorGravity="top|right" />
 
 </android.support.design.widget.CoordinatorLayout>
