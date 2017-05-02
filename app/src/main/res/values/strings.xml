@@ -6,7 +6,9 @@
     <string name="title_activity_open_charge">OpenCharge</string>
     <string name="latitude_label" />
     <string name="longitude_label" />
-    <string name="about">Greenr is designed to help you be more enviromental friendly by providing navigation to electric charging car stations. Use the maps capability to easily find the location and information of thousands of Tesla charging station. Information includes availability and charging level.</string>
-    <string name="aboutTitle"><u>DRIVE WITH A PURPOSE</u></string>
+    <string name="about">Greenr is designed to help you be more environmental friendly by providing navigation to electric charging car stations. Use the maps capability to easily find the location and information of thousands of Tesla charging station. Information includes availability and charging level.</string>
+    <string name="aboutTitle"><u><b>DRIVE WITH A PURPOSE</b></u></string>
     <string name="mapButton"><button>FIND STATIONS</button></string>
+    <string name="mapButtonText">FIND STATIONS</string>
+    <string name="favoriteButtonText">VIEW SAVED</string>
 </resources>

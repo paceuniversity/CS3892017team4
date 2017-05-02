@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button android:id="@+id/mapsbutton"
-        android:text="FIND STATIONS"
+        android:text="@string/mapButtonText"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="38dp"
@@ -60,7 +60,7 @@
         android:layout_marginStart="93dp" />
 
     <Button android:id="@+id/favoriteButton"
-        android:text="VIEW SAVED"
+        android:text="@string/favoriteButtonText"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="17dp"
