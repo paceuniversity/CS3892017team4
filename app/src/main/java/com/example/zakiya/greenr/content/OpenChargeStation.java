@@ -16,7 +16,7 @@ public class OpenChargeStation {
     private double longitude;
     private String contactTelephone1;
 
-    public OpenChargeStation(){
+    public OpenChargeStation() {
 
     }
 
@@ -107,16 +107,12 @@ public class OpenChargeStation {
 
     @Override
     public String toString() {
-        return "OpenChargeStation{" +
-                "\n id=" + id +
-                ", \n title='" + title + '\'' +
-                ", \n addressLine1='" + addressLine1 + '\'' +
-                ", \n town='" + town + '\'' +
-                ", \n stateOrProvince='" + stateOrProvince + '\'' +
-                ", \n postcode='" + postcode + '\'' +
-                ", \n latitude=" + latitude +
-                ", \n longitude=" + longitude +
-                ", \n contactTelephone1='" + contactTelephone1 + '\'' +
-                '}';
+        return
+                title +
+                        "\n" + addressLine1 +
+                        "\n" + town +
+                        "\n" + stateOrProvince + ", " + postcode +
+                        "\n" + postcode +
+                        "\n" + contactTelephone1;
     }
 }

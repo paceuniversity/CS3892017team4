@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Greenr</string>
+    <string name="SplashMess">NETTOYER ET VERT ENSEMBLE</string>
+    <string name="about">Greenr est conçu pour vous aider à être plus respectueux de l\'environnement en fournissant la navigation sur les stations de charge électrique. Utilisez la capacité de cartes pour trouver facilement l\'emplacement et les informations de milliers de stations de recharge Tesla. L\'information comprend la disponibilité et le niveau de charge.</string>
+    <string name="aboutTitle"><u><b>CONDUIRE À L\'OBJET</b></u></string>
+    <string name="favoriteButtonText">VOIR SAUVE</string>
+    <string name="mapButtonText">TROUVER DES STATIONS</string>
+    <string name="mapButton">TROUVER DES STATIONS</string>
+    <string name="title_activity_favorites">Mes Favoris</string>
+    <string name="title_activity_main">Plus vert</string>
+    <string name="title_activity_map">Carte</string>
+    <string name="title_activity_open_charge">Frais ouverts</string>
+    <string name="favouritesAdd">Sauvegarder l\'emplacement</string>
+</resources>
