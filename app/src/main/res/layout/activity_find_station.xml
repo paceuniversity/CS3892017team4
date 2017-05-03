@@ -5,12 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.zakiya.greenr.findStation">
+    android:background="#008D8E"
+    tools:context="com.example.zakiya.greenr.findStation"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relativeLayout2">
+        android:id="@+id/relativeLayout2"
+
+
+        >
 
         <include
             android:id="@+id/include"
@@ -19,51 +24,39 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            />
 
         <ListView
             android:id="@+id/charging_stations_list"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="62dp"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false">
+            android:headerDividersEnabled="false"
+            android:background="@drawable/favimage"
+            android:layout_marginTop="60dp">
 
         </ListView>
 
     </RelativeLayout>
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
-        android:title="Greenr"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#008D8E"
+        android:title="Greenr"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="41dp"
-        android:layout_height="34dp"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_vertical|left"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/charging_stations_list"
-        android:layout_toRightOf="@+id/charging_stations_list"
-        android:background="@drawable/ic_menu_black_24dp"
-        app:layout_anchor="@+id/relativeLayout2"
-        app:layout_anchorGravity="top|right" />
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="20dp"
+        android:background="#008D8E"
+        app:srcCompat="@drawable/ic_menu_black_24dp" />
+
 
 </android.support.design.widget.CoordinatorLayout>
