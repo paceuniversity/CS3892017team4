@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="CLEANER AND CREENR TOGETHER"
+        android:text="@string/SplashMess"
         android:textColor="#FFFFFF"
         android:textColorHint="@color/colorPrimary"
         android:textSize="24sp"
