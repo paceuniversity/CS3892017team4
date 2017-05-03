@@ -71,7 +71,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     private GoogleApiClient mGoogleApiClient;
     MapFragment mapFragment;
     Marker currentLocationMarker;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     LatLng currentLocation;
     protected static final String TAG = "MainActivity";
     RequestQueue requestQueue;
@@ -142,6 +142,11 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        //***************************************************TESTING**************************************************
+        Toast.makeText(this, "Directions", Toast.LENGTH_LONG).show();
+        getDirections("Manhattan", "Brooklyn");
+        //***************************************************TESTING**************************************************
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -301,6 +306,9 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         String UrlStart = "https://maps.googleapis.com/maps/api/directions/json?";
         String key = "AIzaSyBT9Bgtbt3MjUeq3u9ZJIpfeXgRW1Xqueo";
         String url = UrlStart+"origin="+origin+"&destination="+destination+"&key="+key;
+
+        Log.i("URL", url);
+
         new DirectionTask().execute(url);
     }
 
@@ -313,7 +321,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         new DirectionTask().execute(url);
     }
 
-    public /*static*/ void drawLine(List<LatLng> points){
+    public static void drawLine(List<LatLng> points){
         PolylineOptions opt = new PolylineOptions();
         for(int i = 0; i<points.size(); i++)
             opt.add(points.get(i));
@@ -351,16 +359,31 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
         @Override
         protected void onPostExecute(String result){
+
+            Log.i("POSTEXEC", "");
+
             if(result==null)
                 return;
 
+            Log.i("POSTEXEC NOTNULL", "");
+
             try{
                 JSONObject response = new JSONObject(result);
-                JSONObject poly = response.getJSONArray("routes").getJSONObject(0).getJSONObject("overview_polyline");
+
+                //JSONObject poly = response.getJSONArray("routes").getJSONObject(0).getJSONObject("overview_polyline");
+
+                JSONArray jsonRoutes = response.getJSONArray("routes");
+                Log.i("JSONPARSE", jsonRoutes.toString());
+                JSONObject jsonRoute = jsonRoutes.getJSONObject(0);
+                JSONObject poly = jsonRoute.getJSONObject("overview_polyline");
+
+
                 String encodedPoints = poly.getString("points");
+                Log.i("ENCODEDPOINTS", encodedPoints);
+
                 List<LatLng> points = PolyUtil.decode(encodedPoints);
 
-                //mapScreen.drawLine(points);
+                mapScreen.drawLine(points);
 
             }catch(JSONException e){
                 e.printStackTrace();
