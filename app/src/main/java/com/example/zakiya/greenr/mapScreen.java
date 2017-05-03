@@ -304,7 +304,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private void getDirections(String origin, String destination){
         String UrlStart = "https://maps.googleapis.com/maps/api/directions/json?";
-        String key = "AIzaSyBT9Bgtbt3MjUeq3u9ZJIpfeXgRW1Xqueo";
+        String key = "AIzaSyDmaV_3l8Spg16qVgEPuNCtqIqLPtDISBs";
         String url = UrlStart+"origin="+origin+"&destination="+destination+"&key="+key;
 
         Log.i("URL", url);
@@ -314,7 +314,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private void getDirections(LatLng origin, LatLng destination){
         String UrlStart = "https://maps.googleapis.com/maps/api/directions/json?";
-        String key = "AIzaSyBT9Bgtbt3MjUeq3u9ZJIpfeXgRW1Xqueo";
+        String key = "AIzaSyDmaV_3l8Spg16qVgEPuNCtqIqLPtDISBs";
         String oCoords = Double.toString(origin.latitude)+","+Double.toString(origin.longitude);
         String dCoords = Double.toString(destination.latitude)+","+Double.toString(destination.longitude);
         String url = UrlStart+"origin="+oCoords+"&destination="+dCoords+"&key="+key;
@@ -369,6 +369,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
             try{
                 JSONObject response = new JSONObject(result);
+                Log.i("DIRECTIONSRESPONSE", response.toString());
 
                 //JSONObject poly = response.getJSONArray("routes").getJSONObject(0).getJSONObject("overview_polyline");
 
