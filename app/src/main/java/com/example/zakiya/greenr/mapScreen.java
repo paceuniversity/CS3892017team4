@@ -144,8 +144,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         mMap = googleMap;
 
         //***************************************************TESTING**************************************************
-        Toast.makeText(this, "Directions", Toast.LENGTH_LONG).show();
-        getDirections("Manhattan", "Brooklyn");
+        /*Toast.makeText(this, "Directions", Toast.LENGTH_LONG).show();
+        getDirections("Manhattan", "Brooklyn");*/
         //***************************************************TESTING**************************************************
     }
 
@@ -281,6 +281,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     @Override
     public boolean onMarkerClick(final Marker marker) {
         markerStation = arrayOfStations.get((int) marker.getTag());
+        LatLng destinationPlace = new LatLng(markerStation.getLatitude(), markerStation.getLongitude());
         if (markerStation != null) {
             new CountDownTimer(10000, 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -290,6 +291,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     mLayout.setVisibility(View.GONE);
                 }
             }.start();
+
+            getDirections(currentLocation, destinationPlace);
         }else {
             Log.e(TAG, "ERROR WHEN CLICKING MARKER TO RETRIEVE STATION");
         }
