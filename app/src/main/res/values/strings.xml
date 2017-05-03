@@ -11,4 +11,5 @@
     <string name="mapButton"><button>FIND STATIONS</button></string>
     <string name="mapButtonText">FIND STATIONS</string>
     <string name="favoriteButtonText">VIEW SAVED</string>
+    <string name="favouritesAdd">Save Location</string>
 </resources>

@@ -5,10 +5,9 @@ package com.example.zakiya.greenr;
  */
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -16,8 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -25,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.zakiya.greenr.content.ChargingStation;
 import com.example.zakiya.greenr.content.OpenChargeStation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -43,19 +41,19 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
-public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    // GoogleMap.OnMarkerClickListener
+public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private GoogleApiClient mGoogleApiClient;
     MapFragment mapFragment;
@@ -67,6 +65,11 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     private LocationRequest locationRequest;
     private FusedLocationProviderApi locationProviderApi = LocationServices.FusedLocationApi;
     private ArrayList<OpenChargeStation> arrayOfStations;
+    private Button favouritesAdd;
+    private LinearLayout mLayout;
+    private  OpenChargeStation markerStation;
+    FirebaseDatabase database;
+    DatabaseReference updateStation;
 
 
     @Override
@@ -75,20 +78,32 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.map_screen);
             requestQueue = Volley.newRequestQueue(this);
-
-            locationRequest=new LocationRequest();
+            locationRequest = new LocationRequest();
             locationRequest.setInterval(50000);
             locationRequest.setFastestInterval(20000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             buildGoogleApiClient();
             initMap();
+
+            mLayout= (LinearLayout) findViewById(R.id.button_holder);
+
+            favouritesAdd = (Button) findViewById(R.id.favouritesAdd);
+            favouritesAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addStationToDatabase(markerStation);
+                }
+            });
+            database = FirebaseDatabase.getInstance();
+            updateStation = database.getReference("OpenCharge Station");
+
         } else {
             Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void initMap(){
+    public void initMap() {
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment);
         mapFragment.getMapAsync(this);
     }
@@ -175,8 +190,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-        currentLocationMarker= mMap.addMarker(new MarkerOptions()
+        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        currentLocationMarker = mMap.addMarker(new MarkerOptions()
                 .position(currentLocation).title("Your Location"));
         goToLocationZoom(currentLocation, 10);
 
@@ -196,7 +211,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     //Input the latitude coordinates and longitude coordinates "AS STRINGS"
 
     private ArrayList<OpenChargeStation> getNearbyStations(String latCoor, String longCoor, String distance) {
-        String url = "https://api.openchargemap.io/v2/poi/?output=json&countrycode=US&latitude=" + latCoor + "&longitude=" +
+        String url = "https://api.openchargemap.io/v2/poi/?output=json&latitude=" + latCoor + "&longitude=" +
                 longCoor + "&distance=" + distance + "&maxresults=5&compact=true&verbose=false&camelcase=true";
         arrayOfStations = new ArrayList<>();
 
@@ -232,7 +247,6 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     private void populateMapWithStations() {
-        //Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         Marker mapMarker;
         for (int i = 0; i < arrayOfStations.size(); i++) {
             double stationLat = arrayOfStations.get(i).getLatitude();
@@ -242,7 +256,31 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     .title(arrayOfStations.get(i).getTitle())
                     .icon(BitmapDescriptorFactory.defaultMarker(130)));
             mapMarker.setTag(i);
-            //Toast.makeText(this.getApplicationContext(), "Please Install Google Play Services", Toast.LENGTH_LONG).show();
         }
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        markerStation = arrayOfStations.get((int) marker.getTag());
+        if (markerStation != null) {
+            new CountDownTimer(10000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    mLayout.setVisibility(View.VISIBLE);
+                }
+                public void onFinish() {
+                    mLayout.setVisibility(View.GONE);
+                }
+            }.start();
+        }else {
+            Log.e(TAG, "ERROR WHEN CLICKING MARKER TO RETRIEVE STATION");
+        }
+        return false;
+    }
+
+    public void addStationToDatabase(OpenChargeStation openChargeStation){
+        String key = updateStation.push().getKey();
+        updateStation.child(key).setValue(openChargeStation);
+        Log.i(TAG,"MARKER STATION Just Sent");
     }
 }
