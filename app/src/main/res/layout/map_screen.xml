@@ -2,8 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.zakiya.greenr.findStation">
 
@@ -19,6 +19,22 @@
             android:layout_height="match_parent"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="0dp" />
+
+        <LinearLayout
+            android:id="@+id/button_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+
+        <Button
+            android:id="@+id/favouritesAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/favouritesAdd" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

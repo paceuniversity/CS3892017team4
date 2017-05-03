@@ -7,8 +7,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
-import com.example.zakiya.greenr.content.ChargingStation;
+import com.example.zakiya.greenr.content.OpenChargeStation;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,23 +33,11 @@ public class findStation extends AppCompatActivity {
         final ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.simplelayout, listOfStations);
 
         listView.setAdapter(adapter);
-//;/
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference chargeSRef = database.getReference("Charging Stations");
+        final DatabaseReference chargeSRef = database.getReference("OpenCharge Station");
 
-        ChargingStation chargingStation = new ChargingStation("AA Mall Supercharger", "5016, Shennan East Road, Shenzhen, China", 3, "yes");
-        String key = chargeSRef.push().getKey();
-        chargeSRef.child(key).setValue(chargingStation);
-
- /*       if (listOfStations != null) {
-            final ArrayAdapter adapter = new ArrayAdapter<>(this,
-                    R.layout.listview, R.id.label_list, listOfStations);
-            ListView listView = (ListView) findViewById(R.id.charging_stations_list);
-        } else {
-            Log.e("Error", "The list was empty");
-        }
-*/
-        chargeSRef.orderByKey().limitToFirst(3).addValueEventListener(new ValueEventListener() {
+        chargeSRef.orderByKey().limitToLast(3).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Read each child of the user
@@ -58,7 +45,7 @@ public class findStation extends AppCompatActivity {
 
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ChargingStation cS = child.getValue(ChargingStation.class);
+                    OpenChargeStation cS = child.getValue(OpenChargeStation.class);
                     listOfStations.add(cS.toString());
                     adapter.notifyDataSetChanged();
                 }

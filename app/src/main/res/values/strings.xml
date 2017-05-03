@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Greenr</string>
-    <string name="title_activity_favorites">My Favorites</string>
+    <string name="title_activity_favorites">Favorites</string>
+    <string name="title_activity_main">Greenr</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_open_charge">OpenCharge</string>
     <string name="latitude_label" />
     <string name="longitude_label" />
     <string name="about">Greenr is designed to help you be more environmental friendly by providing navigation to electric charging car stations. Use the maps capability to easily find the location and information of thousands of Tesla charging station. Information includes availability and charging level.</string>
     <string name="aboutTitle"><u><b>DRIVE WITH A PURPOSE</b></u></string>
-    <string name="mapButton">FIND STATIONS</string>
+    <string name="mapButton"><button>FIND STATIONS</button></string>
     <string name="mapButtonText">FIND STATIONS</string>
     <string name="favoriteButtonText">VIEW SAVED</string>
-    <string name="SplashMess">CLEANER AND GREENR TOGETHER</string>
-    <string name="title_activity_main">GreenR</string>
+    <string name="favouritesAdd">Save Location</string>
 </resources>
