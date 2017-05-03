@@ -12,7 +12,7 @@
     <string name="aboutTitle"><u><b>CONDUCIR CON UN PROPÓSITO</b></u></string>
     <string name="favoriteButtonText">Estaciónes Guardadas</string>
     <string name="mapButton">Estaciones Guardadas</string>
-    <string name="mapButtonText">"Encontrar Estacion "</string>
+    <string name="mapButtonText">Encontrar Estacion</string>
     <string name="SplashMess">Más Limpios y Más Verdes Juntos</string>
     <string name="favouritesAdd">Guardar dirección</string>
     <string name="update">Actualizar</string>
