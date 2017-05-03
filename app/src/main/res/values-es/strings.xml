@@ -14,4 +14,5 @@
     <string name="mapButton">Estaciones Guardadas</string>
     <string name="mapButtonText">"Encontrar Estacion "</string>
     <string name="SplashMess">Más Limpios y Más Verdes Juntos</string>
+    <string name="favouritesAdd">Guardar dirección</string>
 </resources>

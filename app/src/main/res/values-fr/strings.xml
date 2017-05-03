@@ -11,4 +11,5 @@
     <string name="title_activity_main">Plus vert</string>
     <string name="title_activity_map">Carte</string>
     <string name="title_activity_open_charge">Frais ouverts</string>
+    <string name="favouritesAdd">Sauvegarder l\'emplacement</string>
 </resources>
