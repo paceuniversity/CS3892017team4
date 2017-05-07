@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Greenr</string>
+    <string name="app_name">GreenR</string>
     <string name="title_activity_favorites">喜爱</string>
-    <string name="title_activity_main">格林尔</string>
+    <string name="title_activity_main">GreenR</string>
     <string name="title_activity_map">地图</string>
     <string name="title_activity_open_charge">开放收费</string>
     <string name="SplashMess">更清洁和更环保在一起</string>
-    <string name="about">Greenr旨在通过向充电车站提供导航来帮助您更环保。使用地图功能，轻松找到成千上万特斯拉充电站的位置和信息。信息包括可用性和充电水平。</string>
+    <string name="about">GreenR旨在通过向充电车站提供导航来帮助您更环保。使用地图功能，轻松找到成千上万特斯拉充电站的位置和信息。信息包括可用性和充电水平。</string>
     <string name="aboutTitle"><u><b>驱动与一个目的</b></u></string>
     <string name="favoriteButtonText">查看保存</string>
     <string name="mapButton">查找站</string>
     <string name="mapButtonText">查找站</string>
     <string name="favouritesAdd">保存位置</string>
+    <string name="update">更新</string>
+    <string name="spinner_title">选项</string>
+    <string name="delete">删除</string>
 </resources>
