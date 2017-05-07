@@ -220,7 +220,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
     private void requestLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Please Enable Location Permissions To Execute This Function.",
+            Toast.makeText(this, "Please Enable Location Permissions for GREENR in your App Settings.",
                     Toast.LENGTH_LONG).show();
         }
         locationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
