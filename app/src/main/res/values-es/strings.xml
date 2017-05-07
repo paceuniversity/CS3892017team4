@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Greenr</string>
-    <string name="title_activity_favorites">Favoritos</string>
-    <string name="title_activity_main">Verde</string>
+    <string name="app_name">GreenR</string>
+    <string name="title_activity_favorites">Mis Favoritos</string>
+    <string name="title_activity_main">GreenR</string>
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_open_charge">Cargo Abierto</string>
-    <string name="about">Greenr está diseñado para ayudarle a ser más amigable con el medio ambiente, proporcionando la navegación a las estaciones de carga eléctrica de coches.Utilice la capacidad de mapas para encontrar fácilmente la ubicación y la información de miles de Tesla estación de carga.La información incluye la disponibilidad y el nivel de carga.</string>
+    <string name="about">GreenR está diseñado para ayudarle a ser más amigable con el medio ambiente, proporcionando la navegación a las estaciones de carga eléctrica de coches.Utilice la capacidad de mapas para encontrar fácilmente la ubicación y la información de miles de Tesla estación de carga.La información incluye la disponibilidad y el nivel de carga.</string>
     <string name="longitude_label">longitud</string>
     <string name="latitude_label">latitud</string>
     <string name="Welcome">Beinvenido a Greenr!</string>
+    <string name="aboutTitle"><u><b>CONDUCIR CON UN PROPÓSITO</b></u></string>
+    <string name="favoriteButtonText">Estaciónes Guardadas</string>
+    <string name="mapButton">Estaciones Guardadas</string>
+    <string name="mapButtonText">Encontrar Estacion</string>
+    <string name="SplashMess">Más Limpios y Más Verdes Juntos</string>
+    <string name="favouritesAdd">Guardar dirección</string>
+    <string name="update">Actualizar</string>
+    <string name="spinner_title">Opciones</string>
+    <string name="delete">Borrar</string>
 </resources>

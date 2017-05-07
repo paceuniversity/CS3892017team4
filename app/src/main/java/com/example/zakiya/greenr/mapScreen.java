@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.CountDownTimer;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -46,11 +48,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
@@ -58,7 +71,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     private GoogleApiClient mGoogleApiClient;
     MapFragment mapFragment;
     Marker currentLocationMarker;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     LatLng currentLocation;
     protected static final String TAG = "MainActivity";
     RequestQueue requestQueue;
@@ -129,6 +142,11 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        //***************************************************TESTING**************************************************
+        /*Toast.makeText(this, "Directions", Toast.LENGTH_LONG).show();
+        getDirections("Manhattan", "Brooklyn");*/
+        //***************************************************TESTING**************************************************
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -263,6 +281,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     @Override
     public boolean onMarkerClick(final Marker marker) {
         markerStation = arrayOfStations.get((int) marker.getTag());
+        LatLng destinationPlace = new LatLng(markerStation.getLatitude(), markerStation.getLongitude());
         if (markerStation != null) {
             new CountDownTimer(10000, 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -272,6 +291,8 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
                     mLayout.setVisibility(View.GONE);
                 }
             }.start();
+
+            getDirections(currentLocation, destinationPlace);
         }else {
             Log.e(TAG, "ERROR WHEN CLICKING MARKER TO RETRIEVE STATION");
         }
@@ -282,5 +303,95 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
         String key = updateStation.push().getKey();
         updateStation.child(key).setValue(openChargeStation);
         Log.i(TAG,"MARKER STATION Just Sent");
+    }
+
+    private void getDirections(String origin, String destination){
+        String UrlStart = "https://maps.googleapis.com/maps/api/directions/json?";
+        String key = "AIzaSyDmaV_3l8Spg16qVgEPuNCtqIqLPtDISBs";
+        String url = UrlStart+"origin="+origin+"&destination="+destination+"&key="+key;
+
+        Log.i("URL", url);
+
+        new DirectionTask().execute(url);
+    }
+
+    private void getDirections(LatLng origin, LatLng destination){
+        String UrlStart = "https://maps.googleapis.com/maps/api/directions/json?";
+        String key = "AIzaSyDmaV_3l8Spg16qVgEPuNCtqIqLPtDISBs";
+        String oCoords = Double.toString(origin.latitude)+","+Double.toString(origin.longitude);
+        String dCoords = Double.toString(destination.latitude)+","+Double.toString(destination.longitude);
+        String url = UrlStart+"origin="+oCoords+"&destination="+dCoords+"&key="+key;
+        new DirectionTask().execute(url);
+    }
+
+    public static void drawLine(List<LatLng> points){
+        PolylineOptions opt = new PolylineOptions();
+        for(int i = 0; i<points.size(); i++)
+            opt.add(points.get(i));
+        mMap.addPolyline(opt);
+    }
+
+    private class DirectionTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String link = params[0];
+
+            try {
+                URL url = new URL(link);
+
+                InputStream stream = url.openConnection().getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+
+                return buffer.toString();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+
+            Log.i("POSTEXEC", "");
+
+            if(result==null)
+                return;
+
+            Log.i("POSTEXEC NOTNULL", "");
+
+            try{
+                JSONObject response = new JSONObject(result);
+                Log.i("DIRECTIONSRESPONSE", response.toString());
+
+                //JSONObject poly = response.getJSONArray("routes").getJSONObject(0).getJSONObject("overview_polyline");
+
+                JSONArray jsonRoutes = response.getJSONArray("routes");
+                Log.i("JSONPARSE", jsonRoutes.toString());
+                JSONObject jsonRoute = jsonRoutes.getJSONObject(0);
+                JSONObject poly = jsonRoute.getJSONObject("overview_polyline");
+
+
+                String encodedPoints = poly.getString("points");
+                Log.i("ENCODEDPOINTS", encodedPoints);
+
+                List<LatLng> points = PolyUtil.decode(encodedPoints);
+
+                mapScreen.drawLine(points);
+
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
