@@ -113,6 +113,6 @@ public class OpenChargeStation {
                         "\n" + town +
                         "\n" + stateOrProvince + ", " + postcode +
                         "\n" + postcode +
-                        "\n" + contactTelephone1;
+                        "\n" + contactTelephone1 + "\n";
     }
 }
