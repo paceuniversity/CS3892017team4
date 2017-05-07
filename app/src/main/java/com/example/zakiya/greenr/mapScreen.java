@@ -215,7 +215,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
         String lat = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
-        getNearbyStations(lat, longitude, "30");
+        getNearbyStations(lat, longitude, "70");
     }
 
     private void requestLocationUpdates() {
