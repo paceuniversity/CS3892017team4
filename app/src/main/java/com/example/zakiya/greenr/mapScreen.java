@@ -215,12 +215,12 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
 
         String lat = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
-        getNearbyStations(lat, longitude, "30");
+        getNearbyStations(lat, longitude, "70");
     }
 
     private void requestLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Please Enable Location Permissions To Execute This Function.",
+            Toast.makeText(this, "Please Enable Location Permissions for GREENR in your App Settings.",
                     Toast.LENGTH_LONG).show();
         }
         locationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
@@ -300,7 +300,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     public void addStationToDatabase(OpenChargeStation openChargeStation){
-        String key = updateStation.push().getKey();
+        String key = String.valueOf(openChargeStation.getId());
         updateStation.child(key).setValue(openChargeStation);
         Log.i(TAG,"MARKER STATION Just Sent");
     }
