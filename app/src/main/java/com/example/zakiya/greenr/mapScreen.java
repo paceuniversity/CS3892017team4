@@ -300,7 +300,7 @@ public class mapScreen extends AppCompatActivity implements OnMapReadyCallback, 
     }
 
     public void addStationToDatabase(OpenChargeStation openChargeStation){
-        String key = updateStation.push().getKey();
+        String key = String.valueOf(openChargeStation.getId());
         updateStation.child(key).setValue(openChargeStation);
         Log.i(TAG,"MARKER STATION Just Sent");
     }
